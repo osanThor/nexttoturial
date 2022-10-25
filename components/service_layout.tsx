@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import GNB from './GNB';
 
 interface Props {
   title: string;
@@ -11,6 +12,7 @@ export const ServiceLayout = function ({ title = 'blah x2', children }: Props) {
       <Head>
         <title>{title}</title>
       </Head>
+      <GNB />
       {children}
     </div>
   );
