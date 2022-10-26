@@ -10,7 +10,6 @@ export const GoogleLogiinButton = function ({ onClick }: Props) {
       <Button
         size="lg"
         width="full"
-        mx="6"
         maxW="md"
         borderRadius="full"
         bgColor="#4285F4"
