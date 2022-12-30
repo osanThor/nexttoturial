@@ -1,10 +1,10 @@
 import { GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import { InAuthuser } from '@/models/in_auth_user';
+import { InAuthUser } from '@/models/in_auth_user';
 import FirebaseClient from '@/models/firebase_client';
 
 export default function useFirebaseAuth() {
-  const [authUser, setAuthUser] = useState<InAuthuser | null>(null);
+  const [authUser, setAuthUser] = useState<InAuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   async function signInWithGoogle(): Promise<void> {

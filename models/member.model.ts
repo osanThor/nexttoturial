@@ -1,4 +1,4 @@
-import { InAuthuser } from './in_auth_user';
+import { InAuthUser } from './in_auth_user';
 import FirebaseAdmin from '@/models/firebase_admin';
 
 const MEMBER_COL = 'members';
@@ -6,9 +6,9 @@ const SCR_NAME_COL = 'screen_name';
 
 type AddResult = { result: true; id: string } | { result: false; message: string };
 
-async function add({ uid, displayName, email, photoURL }: InAuthuser): Promise<AddResult> {
+async function add({ uid, displayName, email, photoURL }: InAuthUser): Promise<AddResult> {
   try {
-    const screenName = (email as string).replace('@gmail.con', '');
+    const screenName = (email as string).replace('@gmail.com', '');
     const addResult = await FirebaseAdmin.getInstance().Firebase.runTransaction(async (transaction) => {
       const memberRef = FirebaseAdmin.getInstance().Firebase.collection(MEMBER_COL).doc(uid);
       const screenRef = FirebaseAdmin.getInstance().Firebase.collection(SCR_NAME_COL).doc(screenName);
@@ -37,7 +37,20 @@ async function add({ uid, displayName, email, photoURL }: InAuthuser): Promise<A
   }
 }
 
+async function findByScreenName(screenName: string): Promise<InAuthUser | null> {
+  const memberRef = FirebaseAdmin.getInstance().Firebase.collection(SCR_NAME_COL).doc(screenName);
+
+  const memberDoc = await memberRef.get();
+
+  if (memberDoc.exists === false) {
+    return null;
+  }
+  const data = memberDoc.data() as InAuthUser;
+  return data;
+}
+
 const MemberModel = {
   add,
+  findByScreenName,
 };
 export default MemberModel;

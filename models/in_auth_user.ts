@@ -1,4 +1,4 @@
-export interface InAuthuser {
+export interface InAuthUser {
   uid: string;
   email: string | null;
   displayName: string | null;
