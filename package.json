@@ -11,6 +11,7 @@
     "@chakra-ui/react": "^2.3.6",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "axios": "^1.2.2",
     "firebase": "^9.12.1",
     "firebase-admin": "^11.2.0",
     "framer-motion": "^6",
