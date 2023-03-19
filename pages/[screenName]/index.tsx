@@ -1,11 +1,24 @@
 import { GetServerSideProps, NextPage } from 'next/types';
-import { Avatar, Box, Button, Flex, FormControl, FormLabel, Switch, Text, Textarea, useToast } from '@chakra-ui/react';
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Switch,
+  Text,
+  Textarea,
+  useToast,
+  VStack,
+} from '@chakra-ui/react';
 import ResizeTextarea from 'react-textarea-autosize';
 import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { ServiceLayout } from '@/components/service_layout';
 import { useAuth } from '@/contexts/auth_user.context';
 import { InAuthUser } from '@/models/in_auth_user';
+import MessageItem from '@/components/message_item';
 
 interface Props {
   userInfo: InAuthUser | null;
@@ -59,7 +72,7 @@ const UserHomePage: NextPage<Props> = function ({ userInfo }) {
     return <p>사용자를 찾을 수 없습니다</p>;
   }
   return (
-    <ServiceLayout title={`${userInfo.displayName}의 홈`} minH="100vh" backgroundColor="gray.50">
+    <ServiceLayout title={`${userInfo.displayName}`} minH="100vh" backgroundColor="gray.50">
       <Box maxW="md" mx="auto" pt="6">
         <Box borderWidth="1px" borderRadius="lg" overflow="hidden" mb="2" bg="white">
           <Flex p="6">
@@ -161,6 +174,10 @@ const UserHomePage: NextPage<Props> = function ({ userInfo }) {
             </FormLabel>
           </FormControl>
         </Box>
+        <VStack spacing="12px" mt="6">
+          <MessageItem />
+          <MessageItem />
+        </VStack>
       </Box>
     </ServiceLayout>
   );
