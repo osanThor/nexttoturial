@@ -13,12 +13,13 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import ResizeTextarea from 'react-textarea-autosize';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { ServiceLayout } from '@/components/service_layout';
 import { useAuth } from '@/contexts/auth_user.context';
 import { InAuthUser } from '@/models/in_auth_user';
 import MessageItem from '@/components/message_item';
+import { InMessage } from '@/models/message/in_message';
 
 interface Props {
   userInfo: InAuthUser | null;
@@ -66,11 +67,29 @@ async function postMessage({
 const UserHomePage: NextPage<Props> = function ({ userInfo }) {
   const [message, setMessage] = useState('');
   const [isAnonymous, setAnonymous] = useState(true);
+  const [messageList, setMessageList] = useState<InMessage[]>([]);
   const toast = useToast();
   const { authUser } = useAuth();
+  async function fetchMessageList(uid: string) {
+    try {
+      const res = await fetch(`/api/messages.list?uid=${uid}`);
+      console.log(res);
+      if (res.status === 200) {
+        const data = await res.json();
+        setMessageList(data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  useEffect(() => {
+    if (userInfo === null) return;
+    fetchMessageList(userInfo.uid);
+  }, [userInfo]);
   if (userInfo === null) {
     return <p>사용자를 찾을 수 없습니다</p>;
   }
+  const isOwner = authUser !== null && authUser.uid === userInfo.uid;
   return (
     <ServiceLayout title={`${userInfo.displayName}`} minH="100vh" backgroundColor="gray.50">
       <Box maxW="md" mx="auto" pt="6">
@@ -175,30 +194,16 @@ const UserHomePage: NextPage<Props> = function ({ userInfo }) {
           </FormControl>
         </Box>
         <VStack spacing="12px" mt="6">
-          <MessageItem
-            uid="tets"
-            photoURL={authUser?.photoURL ?? ''}
-            displayName="test"
-            isOwner={false}
-            item={{
-              id: 'test',
-              message: 'test',
-              createAt: '2023-01-31T20:15:55+09:00',
-              reply: 'reply',
-              replyAt: '2023-02-20T20:15:55+09:00',
-            }}
-          />
-          <MessageItem
-            uid="tets"
-            photoURL={authUser?.photoURL ?? ''}
-            displayName="test"
-            isOwner
-            item={{
-              id: 'test',
-              message: 'test',
-              createAt: '2023-03-11T20:15:55+09:00',
-            }}
-          />
+          {messageList.map((messageData) => (
+            <MessageItem
+              key={`message-item-${userInfo.uid}-${messageData.id}`}
+              item={messageData}
+              uid={userInfo.uid}
+              displayName={userInfo.displayName ?? ''}
+              photoURL={userInfo.photoURL ?? 'https://bit.ly/broken-link'}
+              isOwner={isOwner}
+            />
+          ))}
         </VStack>
       </Box>
     </ServiceLayout>

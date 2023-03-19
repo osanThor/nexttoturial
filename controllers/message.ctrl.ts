@@ -21,7 +21,7 @@ async function list(req: NextApiRequest, res: NextApiResponse) {
   }
   const uidToStr = Array.isArray(uid) ? uid[0] : uid;
   const listResp = await MessageModel.list({ uid: uidToStr });
-  return res.status(201).json(listResp);
+  return res.status(200).json(listResp);
 }
 
 const MessageCtrl = {
