@@ -8,7 +8,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.17",
     "@chakra-ui/react": "^2.3.6",
+    "@chakra-ui/system": "^2.5.2",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "axios": "^1.2.2",
