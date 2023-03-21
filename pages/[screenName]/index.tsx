@@ -76,7 +76,7 @@ const UserHomePage: NextPage<Props> = function ({ userInfo }) {
   const { authUser } = useAuth();
   async function fetchMessageList(uid: string) {
     try {
-      const res = await fetch(`/api/messages.list?uid=${uid}&page=${page}&size=3`);
+      const res = await fetch(`/api/messages.list?uid=${uid}&page=${page}&size=10`);
       if (res.status === 200) {
         const data: {
           totalElements: number;
@@ -116,6 +116,9 @@ const UserHomePage: NextPage<Props> = function ({ userInfo }) {
     if (userInfo === null) return;
     fetchMessageList(userInfo.uid);
   }, [userInfo, messageListFetchtrigger, page]);
+  useEffect(() => {
+    console.log(page, totalPages);
+  }, [page, totalPages]);
 
   if (userInfo === null) {
     return <p>사용자를 찾을 수 없습니다</p>;
