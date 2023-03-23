@@ -24,13 +24,14 @@ import FirebaseClient from '@/models/firebase_client';
 interface Props {
   uid: string;
   photoURL: string;
+  screenName: string;
   displayName: string;
   isOwner: boolean;
   item: InMessage;
   onSendComplete: () => void;
 }
 
-const MessageItem = function ({ uid, photoURL, displayName, isOwner, item, onSendComplete }: Props) {
+const MessageItem = function ({ uid, photoURL, screenName, displayName, isOwner, item, onSendComplete }: Props) {
   const [reply, setReply] = useState('');
   const toast = useToast();
 
@@ -108,6 +109,13 @@ const MessageItem = function ({ uid, photoURL, displayName, isOwner, item, onSen
                   }}
                 >
                   {isDeny ? '비공개 처리 해제' : '비공개 처리'}
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    window.location.href = `/${screenName}/${item.id}`;
+                  }}
+                >
+                  메세지 상세 보기
                 </MenuItem>
               </MenuList>
             </Menu>

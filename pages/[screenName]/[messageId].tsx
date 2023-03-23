@@ -60,6 +60,7 @@ const MessagePage: NextPage<Props> = function ({ userInfo, messageData: initMsgD
         <MessageItem
           item={messageData}
           uid={userInfo.uid}
+          screenName={screenName}
           displayName={userInfo.displayName ?? ''}
           photoURL={userInfo.photoURL ?? 'https://bit.ly/broken-link'}
           isOwner={isOwner}
