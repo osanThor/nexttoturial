@@ -1,5 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import Chromium from 'chrome-aws-lambda';
 import playwright from 'playwright-core';
 import { NextApiRequest, NextApiResponse } from 'next';

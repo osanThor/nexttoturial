@@ -1,9 +1,4 @@
 module.exports = {
-  api: {
-    bodyParser: {
-      sizeLimit: '500kb',
-    },
-  },
   reactStrictMode: true,
   publicRuntimeConfig: {
     apiKey: process.env.publicApiKey || '',
