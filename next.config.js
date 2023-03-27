@@ -5,4 +5,7 @@ module.exports = {
     authDomain: process.env.FIREBASE_AUTH_HOST || '',
     projectId: process.env.projectId || '',
   },
+  api: {
+    responseLimit: '8mb',
+  },
 };
