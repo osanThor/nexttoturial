@@ -1,3 +1,5 @@
+// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+
 import Chromium from 'chrome-aws-lambda';
 import playwright from 'playwright-core';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -11,7 +13,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const baseUrl = `${protocol}://${host}:${port}`;
     await Chromium.font(`${baseUrl}/Pretendard-Regular.ttf`);
   }
-
   const browser = await playwright.chromium.launch({
     args: Chromium.args,
     executablePath: process.env.NODE_ENV !== 'development' ? await Chromium.executablePath : localChromePath,
@@ -26,6 +27,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   });
 
   const url = req.query.url as string;
+
+  console.info({ url });
 
   await page.goto(url);
 
