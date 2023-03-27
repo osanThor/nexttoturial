@@ -1,10 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import Ajv from 'ajv';
 import MessageModel from '@/models/message/message.model';
 import BadReqError from './error/bad_request_error';
 import CustomServerError from './error/custom_server_error';
 import FirebaseAdmin from '@/models/firebase_admin';
+import PostMessageReq from './json_schema/post_message_req';
 
 async function post(req: NextApiRequest, res: NextApiResponse) {
+  const ajv = new Ajv();
+  const valid = ajv.validate(PostMessageReq, { ...req.body });
+  if (valid === false) {
+    throw new BadReqError('요청이 잘못 되었습니다.');
+  }
   const { uid, message, author } = req.body;
   if (uid === undefined) {
     throw new BadReqError('uid 누락');
